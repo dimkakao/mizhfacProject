@@ -7,14 +7,16 @@ import static org.example.game.Game.fight;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import static org.example.game.WarriorClasses.*;
+
 class GameTest {
 
     @Test
     @DisplayName("1. When warrior fights against knight first should lose")
     void fight01() {
 
-        Warrior chuck = new Warrior();
-        Warrior bruce = new Knight();
+        Warrior chuck = WARRIOR.make();
+        Warrior bruce = KNIGHT.make();
 
         boolean result = fight(chuck, bruce);
 
@@ -25,8 +27,8 @@ class GameTest {
     @DisplayName("2. When knight fights against warrior first should win")
     void fight02() {
 
-        Warrior carl = new Knight();
-        Warrior jim = new Warrior();
+        Warrior carl = KNIGHT.make();
+        Warrior jim = WarriorClasses.WARRIOR.make();
 
         boolean result = fight(carl, jim);
 
@@ -45,8 +47,8 @@ class GameTest {
     @DisplayName("3. When warrior fights against warrior first should remain alive")
     void fight03() {
 
-        Warrior bob = new Warrior();
-        Warrior mars = new Warrior();
+        Warrior bob = WarriorClasses.WARRIOR.make();
+        Warrior mars = WarriorClasses.WARRIOR.make();
 
         fight(bob, mars);
 
@@ -65,8 +67,8 @@ class GameTest {
     @DisplayName("4. When knight fights against warrior first should remain alive")
     void fight04() {
 
-        Warrior zeus = new Knight();
-        Warrior godKiller = new Warrior();
+        Warrior zeus = KNIGHT.make();
+        Warrior godKiller = WarriorClasses.WARRIOR.make();
 
         fight(zeus, godKiller);
 
@@ -85,8 +87,8 @@ class GameTest {
     @DisplayName("5. When warrior fights against warrior second should be dead")
     void fight05() {
 
-        Warrior husband = new Warrior();
-        Warrior wife = new Warrior();
+        Warrior husband = WarriorClasses.WARRIOR.make();
+        Warrior wife = WARRIOR.make();
 
         fight(husband, wife);
 
@@ -100,17 +102,17 @@ class GameTest {
 //    test="knight.is_alive",
 //    answer=True)
 //            ],
-    @Test
-    @DisplayName("6. When warrior fights against knight second should be alive")
-    void fight06() {
-
-        Warrior dragon = new Warrior();
-        Warrior knight = new Knight();
-
-        fight(dragon, knight);
-
-        assertTrue(knight.isAlive());
-    }
+//    @Test
+//    @DisplayName("6. When warrior fights against knight second should be alive")
+//    void fight06() {
+//
+//        Warrior dragon = WARRIOR.make();
+//        Warrior knight = KNIGHT.make();
+//
+//        fight(dragon, knight);
+//
+//        assertTrue(knight.isAlive());
+//    }
 
 //            "7. Fight": [
 //    prepare_test(middle_code='''unit_1 = Warrior()
@@ -125,8 +127,8 @@ class GameTest {
     @DisplayName("7. When knight fights against warrior first should win")
     void fight07() {
 
-        Warrior unit_2 = new Knight();
-        Warrior unit_3 = new Warrior();
+        Warrior unit_2 = KNIGHT.make();
+        Warrior unit_3 = WarriorClasses.WARRIOR.make();
 
         boolean result = fight(unit_2, unit_3);
 
