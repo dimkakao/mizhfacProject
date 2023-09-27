@@ -4,8 +4,6 @@ public class WarriorImpl extends AbstractWarrior {
     static final int ATTACK = 5;
     static final int INITIAL_HEALTH = 50;
 
-    private int attack;
-
     public WarriorImpl() {
         super(INITIAL_HEALTH);
     }
@@ -15,4 +13,11 @@ public class WarriorImpl extends AbstractWarrior {
         return ATTACK;
     }
 
+    @Override
+    public String toString() {
+        return "WarriorImpl{" +
+                "attack=" + ATTACK +
+                "health" + this.getHealth() +
+                '}';
+    }
 }
