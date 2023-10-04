@@ -1,6 +1,9 @@
 package org.example.game;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Queue;
 import java.util.function.Supplier;
 
 public class Army implements Iterable<Warrior> {

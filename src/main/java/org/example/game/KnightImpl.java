@@ -15,8 +15,8 @@ public class KnightImpl extends AbstractWarrior {
 
     @Override
     public String toString() {
-        return "KnightImpl{}"+
+        return "KnightImpl{}" +
                 "attack=" + ATTACK +
-        "health" + this.getHealth() ;
+                "health" + this.getHealth();
     }
 }

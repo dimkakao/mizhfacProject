@@ -1,5 +1,8 @@
 package org.example.game;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public abstract class AbstractWarrior implements Warrior {
     private int health;
 
@@ -14,14 +17,17 @@ public abstract class AbstractWarrior implements Warrior {
 
     @Override
     public void hit(Warrior second) {
-        if (second instanceof AbstractWarrior awSecond) {
+        log.info("Warrior {} hits {}", this, second);
+        if (second instanceof DefenderImpl defender) {
+            defender.setHealth(defender.getHealth() - Math.max(0, (getAttack() - defender.getDefence())));
+        } else if (second instanceof AbstractWarrior awSecond) {
             awSecond.setHealth(awSecond.getHealth() - getAttack());
         }
     }
 
     public abstract int getAttack();
 
-    public int getHealth() {
+    int getHealth() {
         return health;
     }
 

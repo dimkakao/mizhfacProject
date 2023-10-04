@@ -4,10 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.example.game.Game.fight;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import static org.example.game.WarriorClasses.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 
@@ -135,4 +133,34 @@ class GameTest {
         assertTrue(result);
     }
 
+    @Test
+    void defenderSmokeTest() {
+        var ch = WARRIOR.make();
+        var br = WARRIOR.make();
+        var ca = KNIGHT.make();
+        var da = WARRIOR.make();
+        var mark = WARRIOR.make();
+        var bob = DEFENDER.make();
+        var mike = KNIGHT.make();
+        var rog = WARRIOR.make();
+        var lan = DEFENDER.make();
+
+        assertTrue(fight(ch, br));
+        assertFalse(fight(da, ca));
+    }
+
+    @Test
+    void WarriorVsDefender() {
+        var warrior = WARRIOR.make();
+        var defender = DEFENDER.make();
+
+        var res = fight(warrior, defender);
+
+        assertAll(
+                () -> assertFalse(res),
+                () -> assertEquals(-1, ((AbstractWarrior) warrior).getHealth()),
+                () -> assertEquals(9, ((AbstractWarrior) defender).getHealth())
+        );
+
+    }
 }

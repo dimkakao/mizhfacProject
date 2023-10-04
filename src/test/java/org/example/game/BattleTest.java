@@ -4,16 +4,37 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.example.game.WarriorClasses.KNIGHT;
 import static org.example.game.WarriorClasses.WARRIOR;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BattleTest {
+
+    private static Stream<Arguments> battleArguments01() {
+        var army = new Army().addUnits(WARRIOR, 5);
+        return Stream.of(
+                Arguments.of(army, new Army().addUnits(WARRIOR, 1)),
+                Arguments.of(army, new Army().addUnits(WARRIOR, 1)),
+                Arguments.of(army, new Army().addUnits(WARRIOR, 1)),
+                Arguments.of(army, new Army().addUnits(WARRIOR, 1)),
+                Arguments.of(army, new Army().addUnits(KNIGHT, 1))
+        );
+    }
+
+    private static Stream<Arguments> battleArguments02() {
+        var army = new Army().addUnits(WARRIOR, 4);
+        return Stream.of(
+                Arguments.of(army, new Army().addUnits(WARRIOR, 3)),
+                Arguments.of(army, new Army().addUnits(KNIGHT, 1))
+        );
+    }
 
     @Test
     @DisplayName("1. Battle: 1 Warriors < 2 Warriors")
@@ -153,37 +174,18 @@ public class BattleTest {
         army1.addUnits(WARRIOR, 4);
         army2.addUnits(WARRIOR, 3);
         army3.addUnits(KNIGHT, 1);
-
-        System.out.println("A1 Before " + army1.getArmy().size() + ". A2 Before " + army2.getArmy().size());
-        System.out.println();
         var res = Game.fight(army1, army2);
         assertTrue(res);
-        System.out.println("A1 After " + army1.getArmy().size() + ". A2 After " + army2.getArmy().size());
-        System.out.println("------------------------");
-
-        System.out.println("A1 Before " + army1.getArmy().size() + ". A3 Before " + army3.getArmy().size());
         res = Game.fight(army1, army3);
-        System.out.println("A1 After " + army1.getArmy().size() + ". A3 After " + army3.getArmy().size());
         assertTrue(res);
 
     }
 
     @ParameterizedTest
-    @DisplayName("Army(5W) > 4*Army(1W) + 1*Army(1K)")
+    @DisplayName("1*Army(5W) > 4*Army(1W) + 1*Army(1K)")
     @MethodSource("battleArguments01")
     void testOneArmyAgainst5OtherArmies(Army army1, Army army2) {
         assertTrue(Game.fight(army1, army2));
-    }
-
-    private static Stream<Arguments> battleArguments01() {
-        var army = new Army().addUnits(WARRIOR, 5);
-        return Stream.of(
-                Arguments.of(army, new Army().addUnits(WARRIOR, 1)),
-                Arguments.of(army, new Army().addUnits(WARRIOR, 1)),
-                Arguments.of(army, new Army().addUnits(WARRIOR, 1)),
-                Arguments.of(army, new Army().addUnits(WARRIOR, 1)),
-                Arguments.of(army, new Army().addUnits(KNIGHT, 1))
-        );
     }
 
     @ParameterizedTest
@@ -193,54 +195,39 @@ public class BattleTest {
         assertTrue(Game.fight(army1, army2));
     }
 
-    private static Stream<Arguments> battleArguments02() {
-        var army = new Army().addUnits(WARRIOR, 4);
-        return Stream.of(
-                Arguments.of(army, new Army().addUnits(WARRIOR, 3)),
-                Arguments.of(army, new Army().addUnits(KNIGHT, 1))
-        );
-    }
-
     @Test
-    @DisplayName("11")
+    @DisplayName("1*Army(5W) > 4*Army(1W) + 1*Army(1K)")
     void smokeTest11() {
-        var army1 = new Army();
-        var army2 = new Army();
-        var army3 = new Army();
-        var army4 = new Army();
-        var army5 = new Army();
-        var army6 = new Army();
-        army1.addUnits(WARRIOR, 5);
-        army2.addUnits(WARRIOR, 1);
-        army3.addUnits(WARRIOR, 1);
-        army4.addUnits(WARRIOR, 1);
-        army5.addUnits(WARRIOR, 1);
-        army6.addUnits(KNIGHT, 1);
+        Army mainArmy = new Army().addUnits(WARRIOR, 5);
+        List<Army> armies = Stream
+                .generate(()->new Army().addUnits(WARRIOR,1))
+                .limit(4)
+                .map(x -> x.addUnits(WARRIOR, 1))
+                .collect(Collectors.toList());
 
-        var res = Game.fight(army1, army2);
-        assertTrue(res);
-//        System.out.println("1 battle finished. Army1 has %d. Army2 has %d".formatted(army1.getArmy().size(),army2.getArmy().size()));
-//        System.out.println("------------------------");
-
-        res = Game.fight(army1, army3);
-        assertTrue(res);
-//        System.out.println("2 battle finished. Army1 has %d. Army3 has %d".formatted(army1.getArmy().size(),army3.getArmy().size()));
-//        System.out.println("------------------------");
-
-        res = Game.fight(army1, army4);
-        assertTrue(res);
-//        System.out.println("3 battle finished. Army1 has %d. Army4 has %d".formatted(army1.getArmy().size(),army4.getArmy().size()));
-//        System.out.println("------------------------");
-
-        res = Game.fight(army1, army5);
-        assertTrue(res);
-//        System.out.println("4 battle finished. Army1 has %d. Army5 has %d".formatted(army1.getArmy().size(),army5.getArmy().size()));
-//        System.out.println("------------------------");
-
-        res = Game.fight(army1, army6);
-        assertTrue(res);
-//        System.out.println("5 battle finished. Army1 has %d. Army6 has %d".formatted(army1.getArmy().size(),army6.getArmy().size()));
-//        System.out.println("------------------------");
-
+        armies.add(new Army().addUnits(KNIGHT, 1));
+        armies.forEach(x -> assertTrue(Game.fight(mainArmy, x)));
+//        var army2 = new Army();
+//        var army3 = new Army();
+//        var army4 = new Army();
+//        var army5 = new Army();
+//        var army6 = new Army();
+//
+//        army2.addUnits(WARRIOR, 1);
+//        army3.addUnits(WARRIOR, 1);
+//        army4.addUnits(WARRIOR, 1);
+//        army5.addUnits(WARRIOR, 1);
+//        army6.addUnits(KNIGHT, 1);
+//
+//        var res = Game.fight(army1, army2);
+//        assertTrue(res);
+//        res = Game.fight(army1, army3);
+//        assertTrue(res);
+//        res = Game.fight(army1, army4);
+//        assertTrue(res);
+//        res = Game.fight(army1, army5);
+//        assertTrue(res);
+//        res = Game.fight(army1, army6);
+//        assertTrue(res);
     }
 }
