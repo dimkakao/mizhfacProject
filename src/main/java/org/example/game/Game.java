@@ -1,14 +1,19 @@
 package org.example.game;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Game {
     public static boolean fight(Warrior first, Warrior second) {
         while (first.isAlive()) {
             first.hit(second);
             if (!second.isAlive()) {
+                log.info("Warrior {} win",  first);
                 return true;
             }
             second.hit(first);
         }
+        log.info("Warrior {} win",  second);
         return false;
     }
 

@@ -1,4 +1,4 @@
-package org.example.game.defenceStrategies;
+package org.example.game.hitDefenceStrategies;
 
 import org.example.game.AbstractDefender;
 import org.example.game.AbstractWarrior;

@@ -1,8 +1,8 @@
 package org.example.game;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.game.defenceStrategies.HitDefenceStrategy;
-import org.example.game.defenceStrategies.HitDefenceStrategyManager;
+import org.example.game.hitDefenceStrategies.HitDefenceStrategy;
+import org.example.game.hitDefenceStrategies.HitDefenceStrategyManager;
 
 import java.util.Optional;
 

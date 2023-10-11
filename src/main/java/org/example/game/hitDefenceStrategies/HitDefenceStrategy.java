@@ -1,4 +1,4 @@
-package org.example.game.defenceStrategies;
+package org.example.game.hitDefenceStrategies;
 
 @FunctionalInterface
 public interface HitDefenceStrategy {
