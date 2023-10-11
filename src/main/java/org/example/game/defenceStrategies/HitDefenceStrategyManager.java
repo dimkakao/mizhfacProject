@@ -6,10 +6,10 @@ import org.example.game.Warrior;
 
 import java.util.Optional;
 
-public class HitStrategyManager {
+public class HitDefenceStrategyManager {
 
-    public static Optional<HitStrategy> chooseStrategy(Warrior warrior) {
-        HitStrategy strategy = null;
+    public static Optional<HitDefenceStrategy> chooseStrategy(Warrior warrior) {
+        HitDefenceStrategy strategy = null;
         if (warrior instanceof AbstractDefender defender) {
             strategy = new SimpleDefenceHitStrategy(defender, defender.getDefence());
         } else if (warrior instanceof AbstractWarrior awSecond) {

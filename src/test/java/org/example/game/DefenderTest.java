@@ -15,7 +15,7 @@ public class DefenderTest {
         Warrior warrior1 = DEFENDER.make();
         Warrior warrior2 = ROOKIE.make();
         fight(warrior1, warrior2);
-        assertEquals(60,((AbstractWarrior)warrior1).getHealth());
+        assertEquals(60, ((AbstractWarrior) warrior1).getHealth());
     }
 
     @Test
@@ -35,11 +35,11 @@ public class DefenderTest {
         Army army1 = new Army();
         Army army2 = new Army();
 
-        army1.addUnits(WARRIOR,5);
-        army1.addUnits(DEFENDER,4);
+        army1.addUnits(WARRIOR, 5);
+        army1.addUnits(DEFENDER, 4);
 
-        army2.addUnits(DEFENDER,5);
-        army2.addUnits(WARRIOR,4);
+        army2.addUnits(DEFENDER, 5);
+        army2.addUnits(WARRIOR, 4);
 
         var res = fight(army1, army2);
         assertTrue(res);
@@ -51,11 +51,11 @@ public class DefenderTest {
         Army army1 = new Army();
         Army army2 = new Army();
 
-        army1.addUnits(DEFENDER,5);
-        army1.addUnits(WARRIOR,20);
+        army1.addUnits(DEFENDER, 5);
+        army1.addUnits(WARRIOR, 20);
 
-        army2.addUnits(WARRIOR,21);
-        army2.addUnits(DEFENDER,4);
+        army2.addUnits(WARRIOR, 21);
+        army2.addUnits(DEFENDER, 4);
 
         var res = fight(army1, army2);
         assertTrue(res);
@@ -67,11 +67,11 @@ public class DefenderTest {
         Army army1 = new Army();
         Army army2 = new Army();
 
-        army1.addUnits(WARRIOR,10);
-        army1.addUnits(DEFENDER,5);
+        army1.addUnits(WARRIOR, 10);
+        army1.addUnits(DEFENDER, 5);
 
-        army2.addUnits(WARRIOR,5);
-        army1.addUnits(DEFENDER,10);
+        army2.addUnits(WARRIOR, 5);
+        army1.addUnits(DEFENDER, 10);
 
         var res = fight(army1, army2);
         assertTrue(res);
@@ -83,11 +83,11 @@ public class DefenderTest {
         Army army1 = new Army();
         Army army2 = new Army();
 
-        army1.addUnits(DEFENDER,2);
-        army1.addUnits(WARRIOR,1);
-        army1.addUnits(DEFENDER,1);
+        army1.addUnits(DEFENDER, 2);
+        army1.addUnits(WARRIOR, 1);
+        army1.addUnits(DEFENDER, 1);
 
-        army2.addUnits(WARRIOR,5);
+        army2.addUnits(WARRIOR, 5);
 
         var res = fight(army1, army2);
         assertFalse(res);

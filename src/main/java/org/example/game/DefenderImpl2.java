@@ -1,8 +1,5 @@
 package org.example.game;
 
-import org.example.game.AbstractDefender;
-import org.example.game.AbstractWarrior;
-
 public class DefenderImpl2 extends AbstractDefender {
 
     private static final int ATTACK = 3;

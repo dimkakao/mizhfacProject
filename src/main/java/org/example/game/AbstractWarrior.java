@@ -1,8 +1,8 @@
 package org.example.game;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.game.defenceStrategies.HitStrategy;
-import org.example.game.defenceStrategies.HitStrategyManager;
+import org.example.game.defenceStrategies.HitDefenceStrategy;
+import org.example.game.defenceStrategies.HitDefenceStrategyManager;
 
 import java.util.Optional;
 
@@ -22,7 +22,7 @@ public abstract class AbstractWarrior implements Warrior {
     @Override
     public void hit(Warrior second) {
         log.info("Warrior {} hits {}", this, second);
-        Optional<HitStrategy> strategy = HitStrategyManager.chooseStrategy(second);
+        Optional<HitDefenceStrategy> strategy = HitDefenceStrategyManager.chooseStrategy(second);
         strategy.ifPresent(x -> x.hit(this.getAttack()));
 //        if (strategy != null) {
 //            strategy.hit(this.getAttack());

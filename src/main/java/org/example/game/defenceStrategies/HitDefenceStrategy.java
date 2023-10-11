@@ -1,7 +1,7 @@
 package org.example.game.defenceStrategies;
 
 @FunctionalInterface
-public interface HitStrategy {
+public interface HitDefenceStrategy {
     void hit(int attack);
 }
 

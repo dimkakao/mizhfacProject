@@ -2,7 +2,7 @@ package org.example.game.defenceStrategies;
 
 import org.example.game.AbstractWarrior;
 
-public class SimpleDefenceHitStrategy implements HitStrategy {
+public class SimpleDefenceHitStrategy implements HitDefenceStrategy {
 
     private AbstractWarrior aw;
     private int defence;
