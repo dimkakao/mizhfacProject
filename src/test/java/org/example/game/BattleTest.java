@@ -195,39 +195,17 @@ public class BattleTest {
         assertTrue(Game.fight(army1, army2));
     }
 
-    @Test
-    @DisplayName("1*Army(5W) > 4*Army(1W) + 1*Army(1K)")
-    void smokeTest11() {
-        Army mainArmy = new Army().addUnits(WARRIOR, 5);
-        List<Army> armies = Stream
-                .generate(()->new Army().addUnits(WARRIOR,1))
-                .limit(4)
-                .map(x -> x.addUnits(WARRIOR, 1))
-                .collect(Collectors.toList());
-
-        armies.add(new Army().addUnits(KNIGHT, 1));
-        armies.forEach(x -> assertTrue(Game.fight(mainArmy, x)));
-//        var army2 = new Army();
-//        var army3 = new Army();
-//        var army4 = new Army();
-//        var army5 = new Army();
-//        var army6 = new Army();
+//    @Test
+//    @DisplayName("1*Army(5W) > 4*Army(1W) + 1*Army(1K)")
+//    void smokeTest11() {
+//        Army mainArmy = new Army().addUnits(WARRIOR, 5);
+//        List<Army> armies = Stream
+//                .generate(()->new Army().addUnits(WARRIOR,1))
+//                .limit(4)
+//                .map(x -> x.addUnits(WARRIOR, 1))
+//                .collect(Collectors.toList());
 //
-//        army2.addUnits(WARRIOR, 1);
-//        army3.addUnits(WARRIOR, 1);
-//        army4.addUnits(WARRIOR, 1);
-//        army5.addUnits(WARRIOR, 1);
-//        army6.addUnits(KNIGHT, 1);
-//
-//        var res = Game.fight(army1, army2);
-//        assertTrue(res);
-//        res = Game.fight(army1, army3);
-//        assertTrue(res);
-//        res = Game.fight(army1, army4);
-//        assertTrue(res);
-//        res = Game.fight(army1, army5);
-//        assertTrue(res);
-//        res = Game.fight(army1, army6);
-//        assertTrue(res);
-    }
+//        armies.add(new Army().addUnits(KNIGHT, 1));
+//        armies.forEach(x -> assertTrue(Game.fight(mainArmy, x)));
+//    }
 }

@@ -1,10 +1,11 @@
 package org.example.game;
 
-public class WarriorImpl extends AbstractWarrior {
-    static final int ATTACK = 5;
-    static final int INITIAL_HEALTH = 50;
+public class RookieImpl extends AbstractWarrior {
 
-    public WarriorImpl() {
+    private static final int ATTACK = 1;
+    private static final int INITIAL_HEALTH = 60;
+
+    public RookieImpl() {
         super(INITIAL_HEALTH);
     }
 
@@ -15,7 +16,7 @@ public class WarriorImpl extends AbstractWarrior {
 
     @Override
     public String toString() {
-        return "WarriorImpl{" +
+        return "RookieImpl{" +
                 " attack=" + ATTACK +
                 " health" + this.getHealth() +
                 '}';
