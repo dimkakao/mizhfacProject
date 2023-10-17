@@ -1,10 +1,10 @@
 package org.example.game;
 
-public class DefenderImpl extends AbstractWarrior {
+public class DefenderImpl extends AbstractWarrior implements HasDefence {
 
     private static final int ATTACK = 3;
     private static final int INITIAL_HEALTH = 60;
-    private static final int DEFENCE = 3;
+    private static final int DEFENCE = 2;
 
     public DefenderImpl() {
         super(INITIAL_HEALTH);
@@ -20,10 +20,8 @@ public class DefenderImpl extends AbstractWarrior {
     }
 
     @Override
-    public String toString() {
-        return "DefenderImpl{" +
-                " attack=" + ATTACK +
-                " health" + this.getHealth() +
-                '}';
+    public void acceptDamage(int damage) {
+        int reducedDamage = Math.max(0, damage - getDefence());
+        super.acceptDamage(reducedDamage);
     }
 }

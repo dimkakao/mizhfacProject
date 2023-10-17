@@ -13,12 +13,4 @@ public class RookieImpl extends AbstractWarrior {
     public int getAttack() {
         return ATTACK;
     }
-
-    @Override
-    public String toString() {
-        return "RookieImpl{" +
-                " attack=" + ATTACK +
-                " health" + this.getHealth() +
-                '}';
-    }
 }

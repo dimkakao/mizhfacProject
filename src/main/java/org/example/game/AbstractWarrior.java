@@ -1,10 +1,6 @@
 package org.example.game;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.game.hitDefenceStrategies.HitDefenceStrategy;
-import org.example.game.hitDefenceStrategies.HitDefenceStrategyManager;
-
-import java.util.Optional;
 
 @Slf4j
 public abstract class AbstractWarrior implements Warrior {
@@ -22,20 +18,15 @@ public abstract class AbstractWarrior implements Warrior {
     @Override
     public void hit(Warrior second) {
         log.info("Warrior {} hits {}", this, second);
-        Optional<HitDefenceStrategy> strategy = HitDefenceStrategyManager.chooseStrategy(second);
-        strategy.ifPresent(x -> x.hit(this.getAttack()));
-//        if (strategy != null) {
-//            strategy.hit(this.getAttack());
-//        }
+        if (second instanceof AbstractWarrior awSecond) {
+            awSecond.acceptDamage(getAttack());
+        } else {
+            throw new RuntimeException();
+        }
+    }
 
-
-//        if (second instanceof DefenderImpl defender) {
-//            strategy = new SimpleDefenceStrategy(defender, defender.getDefence());
-////            defender.setHealth(defender.getHealth() - Math.max(0, (getAttack() - defender.getDefence())));
-//        } else if (second instanceof AbstractWarrior awSecond) {
-//            strategy = new NoDefenceStrategy(awSecond);
-////            awSecond.setHealth(awSecond.getHealth() - getAttack());
-//        }
+    public void acceptDamage(int damage) {
+        setHealth(getHealth() - damage);
     }
 
     public abstract int getAttack();
@@ -46,6 +37,12 @@ public abstract class AbstractWarrior implements Warrior {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    @Override
+    public String toString() {
+        String name = getClass().getSimpleName().replace("Impl", "").toUpperCase();
+        return name + "{" + "health=" + health + " attack=" + getAttack() +'}';
     }
 }
 

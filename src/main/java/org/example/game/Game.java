@@ -8,12 +8,12 @@ public class Game {
         while (first.isAlive()) {
             first.hit(second);
             if (!second.isAlive()) {
-                log.info("Warrior {} win",  first);
+                log.info("1 Warrior {} win",  first);
                 return true;
             }
             second.hit(first);
         }
-        log.info("Warrior {} win",  second);
+        log.info("2 Warrior {} win",  second);
         return false;
     }
 
