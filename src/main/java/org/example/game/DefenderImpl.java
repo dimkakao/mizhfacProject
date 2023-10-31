@@ -1,5 +1,7 @@
 package org.example.game;
 
+import org.example.game.interfaces.HasDefence;
+
 public class DefenderImpl extends AbstractWarrior implements HasDefence {
 
     private static final int ATTACK = 3;

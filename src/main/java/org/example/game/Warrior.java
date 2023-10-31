@@ -1,7 +1,9 @@
 package org.example.game;
 
-public interface Warrior {
-    boolean isAlive();
+import org.example.game.interfaces.CanAcceptDamage;
+import org.example.game.interfaces.CanHit;
 
-    void hit(Warrior second);
+public interface Warrior extends
+        CanAcceptDamage,
+        CanHit {
 }

@@ -1,6 +1,10 @@
 package org.example.game;
 
-public class VampireImpl extends AbstractWarrior implements HasVampirism {
+import org.example.game.interfaces.CanAcceptDamage;
+import org.example.game.interfaces.CanHitAndReportMixin;
+import org.example.game.interfaces.HasVampirism;
+
+public class VampireImpl extends AbstractWarrior implements HasVampirism, CanHitAndReportMixin {
     static final int ATTACK = 4;
     static final int INITIAL_HEALTH = 40;
     static final int VAMPIRISM = 50;
@@ -15,16 +19,10 @@ public class VampireImpl extends AbstractWarrior implements HasVampirism {
     }
 
     @Override
-    public void hit(Warrior second) {
-        if (second instanceof AbstractWarrior aw) {
-            int healthBefore = aw.getHealth();
-            super.hit(second);
-            int healthAfter= aw.getHealth();
-            int realDamage = healthBefore - Math.max(healthAfter, 0);
-            int healing = (int) (realDamage * (double) getVampirismPercent() / 100);
-            this.setHealth(healing);
-        }
-
+    public void hit(CanAcceptDamage opponent) {
+        int realDamage = hitAndReportDealtDamage(opponent);
+        int healing = (int) (realDamage * (double) getVampirismPercent() / 100);
+        this.setHealth(healing);
     }
 
     @Override

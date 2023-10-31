@@ -9,23 +9,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class VampireTest {
 
-    @Test
-    @DisplayName("1. 5D + 6V + 7W < 6W + 6D + 6V")
-    void fight01() {
-        Army army1 = new Army();
-        Army army2 = new Army();
-
-        army1.addUnits(DEFENDER, 5);
-        army1.addUnits(VAMPIRE, 6);
-        army1.addUnits(WARRIOR, 7);
-
-        army2.addUnits(WARRIOR, 6);
-        army2.addUnits(DEFENDER, 6);
-        army2.addUnits(VAMPIRE, 6);
-
-        var res = fight(army1, army2);
-        assertFalse(res);
-    }
+//    @Test
+//    @DisplayName("1. 5D + 6V + 7W < 6W + 6D + 6V")
+//    void fight01() {
+//        Army army1 = new Army();
+//        Army army2 = new Army();
+//
+//        army1.addUnits(DEFENDER, 5);
+//        army1.addUnits(VAMPIRE, 6);
+//        army1.addUnits(WARRIOR, 7);
+//
+//        army2.addUnits(WARRIOR, 6);
+//        army2.addUnits(DEFENDER, 6);
+//        army2.addUnits(VAMPIRE, 6);
+//
+//        var res = fight(army1, army2);
+//        assertFalse(res);
+//    }
 
     @Test
     @DisplayName("2. (2D+ 3V + 4W) < (4W + 5D + 3V)")

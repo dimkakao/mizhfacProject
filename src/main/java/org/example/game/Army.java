@@ -1,14 +1,48 @@
 package org.example.game;
 
-import java.util.ArrayDeque;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Queue;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class Army implements Iterable<Warrior> {
 
-    private Queue<Warrior> army;
+    private static int idCounter = 0;
+    private final int id = ++idCounter;
+    private Deque<Warrior> army;
+
+    private class WarriorInArmyImpl implements WarriorInArmy {
+        Warrior warrior;
+        Warrior warriorBehind;
+        public WarriorInArmyImpl(Warrior warrior) {
+            this.warrior = warrior;
+            if (!army.isEmpty()) {
+                ((WarriorInArmyImpl) army.peekLast()).setWarriorBehind(this);
+            }
+        }
+
+        @Override
+        public Optional<WarriorInArmy> getWarriorBehind() {
+            return Optional.ofNullable((WarriorInArmy) warriorBehind);
+        }
+
+        @Override
+        public void acceptDamage(int damage) {
+            warrior.acceptDamage(damage);
+        }
+
+        @Override
+        public int getAttack() {
+            return warrior.getAttack();
+        }
+
+        @Override
+        public int getHealth() {
+            return warrior.getHealth();
+        }
+
+        public void setWarriorBehind(Warrior warriorBehind) {
+            this.warriorBehind = warriorBehind;
+        }
+    }
 
     public Army addUnits(WarriorClasses warriorClasses, int i) {
         return addUnits(warriorClasses::make, i);
@@ -17,7 +51,9 @@ public class Army implements Iterable<Warrior> {
     public Army addUnits(Supplier<Warrior> warriorFactory, int i) {
         if (army == null) army = new ArrayDeque<>();
         for (int j = 0; j < i; j++) {
-            army.add(warriorFactory.get());
+            Warrior warriorToAdd = warriorFactory.get();
+            WarriorInArmy warriorInArmy = new WarriorInArmyImpl(warriorToAdd);
+            army.add(warriorInArmy);
         }
         return this;
     }
@@ -27,11 +63,11 @@ public class Army implements Iterable<Warrior> {
         return new FirstAliveIterator();
     }
 
-    public Queue<Warrior> getArmy() {
+    public Deque<Warrior> getArmy() {
         return army;
     }
 
-    public void setArmy(Queue<Warrior> army) {
+    public void setArmy(Deque<Warrior> army) {
         this.army = army;
     }
 
@@ -51,8 +87,18 @@ public class Army implements Iterable<Warrior> {
 
         @Override
         public Warrior next() {
-            if (!hasNext()) throw new NoSuchElementException();
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
             return army.peek();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Army{" +
+                "#" + id +
+                ", army=" + army +
+                '}';
     }
 }

@@ -8,16 +8,17 @@ public class Game {
         while (first.isAlive()) {
             first.hit(second);
             if (!second.isAlive()) {
-                log.info("1 Warrior {} win",  first);
+                log.info("1 Warrior {} win", first);
                 return true;
             }
             second.hit(first);
         }
-        log.info("2 Warrior {} win",  second);
+        log.info("2 Warrior {} win", second);
         return false;
     }
 
     public static boolean fight(Army first, Army second) {
+        log.info("Army {} fights against Army {}", first, second);
         var it1 = first.iterator();
         var it2 = second.iterator();
         while (it1.hasNext() && it2.hasNext()) {
