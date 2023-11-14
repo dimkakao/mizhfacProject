@@ -2,6 +2,7 @@ package org.example.game;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.game.interfaces.CanAcceptDamage;
+import org.example.game.interfaces.CanHit;
 import org.example.game.interfaces.CanHitAndReportMixin;
 import org.example.game.interfaces.HasMultiHit;
 
@@ -30,8 +31,10 @@ public class LancerImpl extends AbstractWarrior
             var nextBehind = warriorInArmy.getWarriorBehind();
             if (nextBehind.isPresent()) {
                 int secondDamage = realDamage * PENETRATION / 100;
+                CanHit proxySecondHitByLancer = () -> secondDamage;
+                proxySecondHitByLancer.hit(nextBehind.get());
                 log.info("I am Lancer and hit second time with damage " + secondDamage);
-                nextBehind.get().acceptDamage(secondDamage);
+//                nextBehind.get().acceptDamage(secondDamage);
             }
         }
 //        for (int i = 0; i < getHitCount(); i++) {

@@ -6,7 +6,7 @@ import org.example.game.interfaces.CanAcceptDamage;
 @Slf4j
 public abstract class AbstractWarrior implements Warrior, CanAcceptDamage {
     private static int idCounter = 0;
-    private final int initialHealth;
+    protected final int initialHealth;
     private final int id = ++idCounter;
     private int health;
 
@@ -18,7 +18,7 @@ public abstract class AbstractWarrior implements Warrior, CanAcceptDamage {
     @Override
     public void acceptDamage(int damage) {
         setHealth(getHealth() - damage);
-        log.info("Ouch! I'm "+ this.getClass().getSimpleName() + "and accepted " + damage + " points of damage. Now I have health: " + getHealth());
+        log.info("Ouch! I'm "+ this + " and accepted " + damage + " points of damage. Now I have health: " + getHealth());
     }
 
 //    @Override

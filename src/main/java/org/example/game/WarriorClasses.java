@@ -1,7 +1,7 @@
 package org.example.game;
 
 public enum WarriorClasses {
-    WARRIOR, KNIGHT, DEFENDER, ROOKIE, VAMPIRE, LANCER;
+    WARRIOR, KNIGHT, DEFENDER, ROOKIE, VAMPIRE, LANCER, HEALER;
 
     public static Warrior factory(WarriorClasses warriorClass) {
         return switch (warriorClass) {
@@ -11,6 +11,7 @@ public enum WarriorClasses {
             case ROOKIE -> new RookieImpl();
             case VAMPIRE -> new VampireImpl();
             case LANCER -> new LancerImpl();
+            case HEALER -> new HealerImpl();
         };
     }
 
