@@ -22,7 +22,7 @@ public class VampireImpl extends AbstractWarrior implements HasVampirism, CanHit
     public void hit(CanAcceptDamage opponent) {
         int realDamage = hitAndReportDealtDamage(opponent);
         int healing = (int) (realDamage * (double) getVampirismPercent() / 100);
-        this.setHealth(healing);
+        this.setHealth(getHealth() + healing);
     }
 
     @Override

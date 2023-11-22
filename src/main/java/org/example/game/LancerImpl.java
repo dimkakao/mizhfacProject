@@ -27,7 +27,7 @@ public class LancerImpl extends AbstractWarrior
         log.info("Warrior {} hits {}", this, opponent);
         int realDamage = hitAndReportDealtDamage(opponent);
         log.info("I am Lancer and hit with damage " + realDamage);
-        if (opponent instanceof WarriorInArmy warriorInArmy) {
+        if (opponent instanceof WarriorInArmyImpl warriorInArmy) {
             var nextBehind = warriorInArmy.getWarriorBehind();
             if (nextBehind.isPresent()) {
                 int secondDamage = realDamage * PENETRATION / 100;

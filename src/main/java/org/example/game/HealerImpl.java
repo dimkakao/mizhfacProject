@@ -5,7 +5,7 @@ import org.example.game.interfaces.CanHeal;
 import org.example.game.interfaces.HasHealth;
 
 @Slf4j
-public class HealerImpl extends AbstractWarrior implements Warrior, CanHeal {
+public class HealerImpl extends AbstractWarrior implements  CanHeal {
 
     static final int ATTACK = 0;
     static final int INITIAL_HEALTH = 60;
@@ -26,25 +26,25 @@ public class HealerImpl extends AbstractWarrior implements Warrior, CanHeal {
     @Override
     public void heal(HasHealth patient) {
         if (usedKits < MEDICAL_KITS) {
-            log.info("Magic healing! I am " + this + "and I will heal " + patient);
-            ((AbstractWarrior) patient).setHealth(patient.getHealth() + getHealPower());
-            usedKits++;
+            if (patient instanceof AbstractWarrior abstractWarrior) {
+                log.info("Magic healing! I am " + this + "and I will heal " + patient);
+                abstractWarrior.setHealth(patient.getHealth() + getHealPower());
+                usedKits++;
+            }
+
         }
     }
 
     @Override
     public void acceptDamage(int damage) {
+        log.info("Ouch! I'm "+ this + " and accepted " + damage + " points of damage. Now I have health: " + getHealth());
         if (damage == 0) this.setHealth(0);
-        else super.acceptDamage(damage);
+         else super.acceptDamage(damage);
     }
 
     @Override
     public int getAttack() {
         return ATTACK;
-    }
-
-    public Warrior getFrontWarrior() {
-        return frontWarrior;
     }
 
     public void setFrontWarrior(Warrior frontWarrior) {

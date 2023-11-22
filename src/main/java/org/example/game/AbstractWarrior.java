@@ -35,7 +35,7 @@ public abstract class AbstractWarrior implements Warrior, CanAcceptDamage {
         return health;
     }
 
-    protected void setHealth(int health) {
+    public void setHealth(int health) {
         this.health = Math.min(initialHealth, health);
     }
 

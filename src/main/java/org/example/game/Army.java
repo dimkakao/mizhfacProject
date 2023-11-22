@@ -11,7 +11,6 @@ public class Army implements Iterable<Warrior> {
     private static int idCounter = 0;
     private final int id = ++idCounter;
     private Deque<WarriorInArmyImpl> army;
-    private List<CanHeal> healers;
 
     public Army addUnits(WarriorClasses warriorClasses, int count) {
         return addUnits(warriorClasses::make, count);
@@ -20,9 +19,6 @@ public class Army implements Iterable<Warrior> {
     public Army addUnits(Supplier<Warrior> warriorFactory, int count) {
         if (army == null) {
             army = new ArrayDeque<>();
-        }
-        if (healers == null) {
-            healers = new ArrayList<>();
         }
         for (int i = 0; i < count; i++) {
             var currentLast = army.peekLast();
@@ -34,8 +30,7 @@ public class Army implements Iterable<Warrior> {
             }
             army.add(noviceInArmy);
             if (currentLast != null && warriorToAdd instanceof HealerImpl healer) {
-                healer.setFrontWarrior(currentLast.getMainWarrior());
-                healers.add(healer);
+                healer.setFrontWarrior(currentLast.unwrap());
             }
         }
         return this;
@@ -43,7 +38,18 @@ public class Army implements Iterable<Warrior> {
 
     @Override
     public Iterator<Warrior> iterator() {
+        return allAliveIterator();
+    }
+
+    public Iterator<Warrior> firstAliveIterator() {
         return new FirstAliveIterator();
+    }
+
+    public Iterator<Warrior> allAliveIterator() {
+        return army.stream()
+                .filter(Warrior::isAlive)
+                .map(Army.WarriorInArmyImpl::unwrap)
+                .iterator();
     }
 
     public Deque<WarriorInArmyImpl> getArmy() {
@@ -59,12 +65,15 @@ public class Army implements Iterable<Warrior> {
         return "Army{" + "#" + id + ", army=" + army + '}';
     }
 
-    public interface Command {
+    public boolean isEmpty() {
+        return ! new FirstAliveIterator().hasNext();
     }
 
-
-    enum ChampionDealsHit implements Command{
+    enum ChampionDealsHit implements Command {
         INSTANCE
+    }
+
+    public interface Command {
     }
 
     private class FirstAliveIterator implements Iterator<Warrior> {
@@ -84,24 +93,75 @@ public class Army implements Iterable<Warrior> {
         }
     }
 
-    private class WarriorInArmyImpl implements WarriorInArmy {
+//    private class AllAliveIterator implements Iterator<Warrior> {
+//
+//
+//        Iterator<WarriorInArmyImpl> iterator = army.iterator();
+//        WarriorInArmyImpl warrior;
+//
+//        @Override
+//        public boolean hasNext() {
+//            while (iterator.hasNext()) {
+//                warrior = iterator.next();
+//                if (warrior.isAlive()) return true;
+//            }
+//            return false;
+//        }
+//
+//        @Override
+//        public Warrior next() {
+//            return iterator.next()();
+//        }
+//    }
+
+//    private class AllAliveIterator implements Iterator<Warrior> {
+//
+//        Iterator<WarriorInArmyImpl> iterator = army.iterator();
+//        WarriorInArmyImpl warrior;
+//
+////        AllAliveIterator() {
+////            Deque<WarriorInArmyImpl> tmpArmy = new ArrayDeque<>(army);
+////            tmpArmy.forEach((x) -> {
+////                if (!x.getMainWarrior().isAlive()) army.remove(x);
+////            });
+////            iterator = army.iterator();
+////        }
+//
+//        @Override
+//        public boolean hasNext() {
+//            while (iterator.hasNext()) {
+//                warrior = iterator.next();
+//                if (warrior.isAlive()) return true;
+//            }
+//            return false;
+////            if (!army.isEmpty() && !army.peek().isAlive()) army.poll();
+//
+//        }
+//
+//        @Override
+//        public Warrior next() {
+//            return iterator.next().getMainWarrior();
+//        }
+//    }
+
+    private class WarriorInArmyImpl implements org.example.game.WarriorInArmyImpl {
         private final Warrior warrior;
-        private WarriorInArmy warriorBehind;
+        private org.example.game.WarriorInArmyImpl warriorBehind;
 
         public WarriorInArmyImpl(Warrior warrior) {
             this.warrior = Objects.requireNonNull(warrior);
         }
 
         @Override
-        public Optional<WarriorInArmy> getWarriorBehind() {
+        public Optional<org.example.game.WarriorInArmyImpl> getWarriorBehind() {
             return Optional.ofNullable(warriorBehind);
         }
 
-        public void setWarriorBehind(WarriorInArmy warriorBehind) {
+        public void setWarriorBehind(org.example.game.WarriorInArmyImpl warriorBehind) {
             this.warriorBehind = Objects.requireNonNull(warriorBehind);
         }
 
-        public Warrior getMainWarrior() {
+        public Warrior unwrap() {
             return warrior;
         }
 
@@ -110,10 +170,10 @@ public class Army implements Iterable<Warrior> {
             warrior.acceptDamage(damage);
         }
 
-        void passCommand(Command command, WarriorInArmy passer) {
+        void passCommand(Command command, WarriorInArmyImpl passer) {
             if (passer != this) {
                 if (command instanceof ChampionDealsHit && warrior instanceof CanHeal healer) {
-                    healer.heal(((WarriorInArmyImpl)passer).getMainWarrior());
+                    healer.heal(passer.unwrap());
                 }
             }
             getWarriorBehind().ifPresent(w -> ((WarriorInArmyImpl) w).passCommand(command, this));
@@ -123,7 +183,6 @@ public class Army implements Iterable<Warrior> {
         public void hit(CanAcceptDamage opponent) {
             warrior.hit(opponent);
             passCommand(ChampionDealsHit.INSTANCE, this);
-//            Army.this.healers.forEach(CanHeal::heal);
         }
 
         @Override
