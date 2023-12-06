@@ -127,4 +127,23 @@ public class StraightFightTest {
         assertTrue(res);
     }
 
+    @Test
+    @DisplayName("Battle: 20 -- straight fight")
+    void battle20() {
+        var army1 = new Army()
+                .addUnits(LANCER, 7)
+                .addUnits(VAMPIRE, 3)
+                .addUnits(WARRIOR, 4)
+                .addUnits(DEFENDER, 2);
+        var army2 = new Army()
+                .addUnits(WARRIOR, 4)
+                .addUnits(DEFENDER, 4)
+                .addUnits(VAMPIRE, 6)
+                .addUnits(LANCER, 4);
+
+        var res = fightStraight(army1, army2);
+
+        assertTrue(res);
+    }
+
 }
