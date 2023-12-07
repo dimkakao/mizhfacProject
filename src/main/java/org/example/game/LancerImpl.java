@@ -1,10 +1,7 @@
 package org.example.game;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.game.interfaces.CanAcceptDamage;
-import org.example.game.interfaces.CanHit;
-import org.example.game.interfaces.CanHitAndReportMixin;
-import org.example.game.interfaces.HasMultiHit;
+import org.example.game.interfaces.*;
 
 @Slf4j
 public class LancerImpl extends AbstractWarrior implements HasMultiHit, CanHitAndReportMixin {

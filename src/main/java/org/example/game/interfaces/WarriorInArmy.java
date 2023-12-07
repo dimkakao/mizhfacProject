@@ -1,6 +1,4 @@
-package org.example.game;
-
-import org.example.game.interfaces.Warrior;
+package org.example.game.interfaces;
 
 import java.util.Optional;
 

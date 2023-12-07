@@ -32,16 +32,6 @@ public abstract class AbstractWarrior implements Warrior, CanAcceptDamage {
         opponent.acceptDamage(getAttack() + getTotalWeaponAttack());
     }
 
-//    @Override
-//    public void hit(CanAcceptDamage opponent) {
-//        log.info("Warrior {} hits {}", this, opponent);
-//        if (opponent instanceof AbstractWarrior awSecond) {
-//            awSecond.acceptDamage(getAttack());
-//        } else {
-//            throw new RuntimeException();
-//        }
-//    }
-
     public int getHealth() {
         return health;
     }

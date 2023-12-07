@@ -5,7 +5,6 @@ import org.example.game.interfaces.*;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Army implements Iterable<Warrior> {
 
@@ -21,10 +20,7 @@ public class Army implements Iterable<Warrior> {
                 .collect(Collectors.toList()));
         warlord = null;
         army.clear();
-        for (Warrior w : newArmy) {
-            addWarrior(w);
-        }
-        //        newArmy.forEach(this::addWarrior);
+        newArmy.forEach(this::addWarrior);
     }
 
     public Army addUnits(WarriorClasses warriorClasses, int count) {
@@ -32,7 +28,7 @@ public class Army implements Iterable<Warrior> {
     }
 
     public void addWarrior(Warrior warriorToAdd) {
-        var currentLast = army.peekLast();
+        WarriorInArmyImpl currentLast = army.peekLast();
         if (warriorToAdd instanceof CanMoveUnits warlordToAdd) {
             if (warlord == null) {
                 warlord = warlordToAdd;
@@ -42,8 +38,9 @@ public class Army implements Iterable<Warrior> {
 
         if (currentLast != null) {
             currentLast.setWarriorBehind(noviceInArmy);
-            if (warriorToAdd instanceof HealerImpl healer)
+            if (warriorToAdd instanceof HealerImpl healer) {
                 healer.setFrontWarrior(currentLast.unwrap());
+            }
         }
         army.add(noviceInArmy);
     }
@@ -114,57 +111,6 @@ public class Army implements Iterable<Warrior> {
             return army.peek();
         }
     }
-
-//    private class AllAliveIterator implements Iterator<Warrior> {
-//
-//
-//        Iterator<WarriorInArmyImpl> iterator = army.iterator();
-//        WarriorInArmyImpl warrior;
-//
-//        @Override
-//        public boolean hasNext() {
-//            while (iterator.hasNext()) {
-//                warrior = iterator.next();
-//                if (warrior.isAlive()) return true;
-//            }
-//            return false;
-//        }
-//
-//        @Override
-//        public Warrior next() {
-//            return iterator.next()();
-//        }
-//    }
-
-//    private class AllAliveIterator implements Iterator<Warrior> {
-//
-//        Iterator<WarriorInArmyImpl> iterator = army.iterator();
-//        WarriorInArmyImpl warrior;
-//
-////        AllAliveIterator() {
-////            Deque<WarriorInArmyImpl> tmpArmy = new ArrayDeque<>(army);
-////            tmpArmy.forEach((x) -> {
-////                if (!x.getMainWarrior().isAlive()) army.remove(x);
-////            });
-////            iterator = army.iterator();
-////        }
-//
-//        @Override
-//        public boolean hasNext() {
-//            while (iterator.hasNext()) {
-//                warrior = iterator.next();
-//                if (warrior.isAlive()) return true;
-//            }
-//            return false;
-////            if (!army.isEmpty() && !army.peek().isAlive()) army.poll();
-//
-//        }
-//
-//        @Override
-//        public Warrior next() {
-//            return iterator.next().getMainWarrior();
-//        }
-//    }
 
     private class WarriorInArmyImpl implements WarriorInArmy {
         private final Warrior warrior;
