@@ -3,6 +3,7 @@ package org.example.game;
 import lombok.extern.slf4j.Slf4j;
 import org.example.game.interfaces.CanHeal;
 import org.example.game.interfaces.HasHealth;
+import org.example.game.interfaces.Warrior;
 import org.example.game.interfaces.Weapon;
 
 @Slf4j

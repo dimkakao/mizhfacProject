@@ -1,20 +1,51 @@
 package org.example.game;
 
-import org.example.game.interfaces.CanAcceptDamage;
-import org.example.game.interfaces.CanHeal;
-import org.example.game.interfaces.Weapon;
+import org.example.game.interfaces.*;
 
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Army implements Iterable<Warrior> {
 
     private static int idCounter = 0;
     private final int id = ++idCounter;
     private Deque<WarriorInArmyImpl> army;
+    private CanMoveUnits warlord;
+
+    public void moveUnits() {
+        if (warlord == null) return;
+        Collection<Warrior> newArmy = warlord.moveUnits(army.stream()
+                .map(WarriorInArmyImpl::unwrap)
+                .collect(Collectors.toList()));
+        warlord = null;
+        army.clear();
+        for (Warrior w : newArmy) {
+            addWarrior(w);
+        }
+        //        newArmy.forEach(this::addWarrior);
+    }
 
     public Army addUnits(WarriorClasses warriorClasses, int count) {
         return addUnits(warriorClasses::make, count);
+    }
+
+    public void addWarrior(Warrior warriorToAdd) {
+        var currentLast = army.peekLast();
+        if (warriorToAdd instanceof CanMoveUnits warlordToAdd) {
+            if (warlord == null) {
+                warlord = warlordToAdd;
+            } else return;
+        }
+        WarriorInArmyImpl noviceInArmy = new WarriorInArmyImpl(warriorToAdd);
+
+        if (currentLast != null) {
+            currentLast.setWarriorBehind(noviceInArmy);
+            if (warriorToAdd instanceof HealerImpl healer)
+                healer.setFrontWarrior(currentLast.unwrap());
+        }
+        army.add(noviceInArmy);
     }
 
     public Army addUnits(Supplier<Warrior> warriorFactory, int count) {
@@ -22,17 +53,7 @@ public class Army implements Iterable<Warrior> {
             army = new ArrayDeque<>();
         }
         for (int i = 0; i < count; i++) {
-            var currentLast = army.peekLast();
-            Warrior warriorToAdd = warriorFactory.get();
-            WarriorInArmyImpl noviceInArmy = new WarriorInArmyImpl(warriorToAdd);
-            Optional<WarriorInArmyImpl> currentLastOptional = Optional.ofNullable(currentLast);
-            if (currentLast != null) {
-                currentLast.setWarriorBehind(noviceInArmy);
-            }
-            army.add(noviceInArmy);
-            if (currentLast != null && warriorToAdd instanceof HealerImpl healer) {
-                healer.setFrontWarrior(currentLast.unwrap());
-            }
+            addWarrior(warriorFactory.get());
         }
         return this;
     }

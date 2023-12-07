@@ -30,11 +30,6 @@ public class DefenderImpl extends AbstractWarrior implements HasDefence {
     }
 
     private int getTotalWeaponDefence() {
-//        if (isChangedWeapons) {
-//            weaponDefence = weaponList.stream().map(Weapon::getDefence).reduce(0, Integer::sum);
-//            isChangedWeapons = false;
-//        }
-//        return weaponDefence;
         return weaponList.stream().map(Weapon::getDefence).reduce(0, Integer::sum);
     }
 

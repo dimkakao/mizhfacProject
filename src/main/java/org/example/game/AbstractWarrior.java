@@ -2,6 +2,7 @@ package org.example.game;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.game.interfaces.CanAcceptDamage;
+import org.example.game.interfaces.Warrior;
 import org.example.game.interfaces.Weapon;
 
 import java.util.ArrayList;
@@ -12,8 +13,6 @@ public abstract class AbstractWarrior implements Warrior, CanAcceptDamage {
     private static int idCounter = 0;
     private final int id = ++idCounter;
     protected int initialHealth;
-    protected boolean isChangedWeapons = false;
-    protected int weaponAttack;
     protected List<Weapon> weaponList = new ArrayList<>();
     private int health;
 
@@ -59,7 +58,6 @@ public abstract class AbstractWarrior implements Warrior, CanAcceptDamage {
 
     @Override
     public void equipWeapon(Weapon weapon) {
-        isChangedWeapons = true;
         weaponList.add(weapon);
         int healthWeapon = weapon.getHealth();
         initialHealth += healthWeapon;

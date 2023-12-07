@@ -1,6 +1,7 @@
 package org.example.game;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.game.interfaces.Warrior;
 
 @Slf4j
 public class Game {
@@ -23,6 +24,8 @@ public class Game {
         var it2 = second.firstAliveIterator();
         while (it1.hasNext() && it2.hasNext()) {
             fight(it1.next(), it2.next());
+            first.moveUnits();
+            second.moveUnits();
         }
         return it1.hasNext();
     }
