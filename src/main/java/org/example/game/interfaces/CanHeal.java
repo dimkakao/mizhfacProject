@@ -1,6 +1,6 @@
 package org.example.game.interfaces;
 
 public interface CanHeal {
-//    void heal();
-void heal(HasHealth patient);
+    //    void heal();
+    void heal(HasHealth patient);
 }

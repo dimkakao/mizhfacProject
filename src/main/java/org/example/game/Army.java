@@ -2,6 +2,7 @@ package org.example.game;
 
 import org.example.game.interfaces.CanAcceptDamage;
 import org.example.game.interfaces.CanHeal;
+import org.example.game.interfaces.Weapon;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -66,7 +67,7 @@ public class Army implements Iterable<Warrior> {
     }
 
     public boolean isEmpty() {
-        return ! new FirstAliveIterator().hasNext();
+        return !new FirstAliveIterator().hasNext();
     }
 
     enum ChampionDealsHit implements Command {
@@ -144,20 +145,20 @@ public class Army implements Iterable<Warrior> {
 //        }
 //    }
 
-    private class WarriorInArmyImpl implements org.example.game.WarriorInArmyImpl {
+    private class WarriorInArmyImpl implements WarriorInArmy {
         private final Warrior warrior;
-        private org.example.game.WarriorInArmyImpl warriorBehind;
+        private WarriorInArmy warriorBehind;
 
         public WarriorInArmyImpl(Warrior warrior) {
             this.warrior = Objects.requireNonNull(warrior);
         }
 
         @Override
-        public Optional<org.example.game.WarriorInArmyImpl> getWarriorBehind() {
+        public Optional<WarriorInArmy> getWarriorBehind() {
             return Optional.ofNullable(warriorBehind);
         }
 
-        public void setWarriorBehind(org.example.game.WarriorInArmyImpl warriorBehind) {
+        public void setWarriorBehind(WarriorInArmy warriorBehind) {
             this.warriorBehind = Objects.requireNonNull(warriorBehind);
         }
 
@@ -205,6 +206,10 @@ public class Army implements Iterable<Warrior> {
             return warrior.toString();
         }
 
+        @Override
+        public void equipWeapon(Weapon weapon) {
+            warrior.equipWeapon(weapon);
+        }
     }
 
 }

@@ -1,13 +1,12 @@
 package org.example.game;
 
-import org.example.game.interfaces.CanAcceptDamage;
-import org.example.game.interfaces.CanHitAndReportMixin;
-import org.example.game.interfaces.HasVampirism;
+import org.example.game.interfaces.*;
 
 public class VampireImpl extends AbstractWarrior implements HasVampirism, CanHitAndReportMixin {
     static final int ATTACK = 4;
     static final int INITIAL_HEALTH = 40;
     static final int VAMPIRISM = 50;
+    private int weaponVampirism;
 
     public VampireImpl() {
         super(INITIAL_HEALTH);
@@ -27,6 +26,18 @@ public class VampireImpl extends AbstractWarrior implements HasVampirism, CanHit
 
     @Override
     public int getVampirismPercent() {
-        return VAMPIRISM;
+        return VAMPIRISM + getTotalWeaponVampirism();
+    }
+
+    private int getTotalWeaponVampirism() {
+        return weaponList.stream().map(Weapon::getVampirism).reduce(0, Integer::sum);
+    }
+
+    @Override
+    public int hitAndReportDealtDamage(CanAcceptDamage opponent) {
+        int healthBefore = opponent.getHealth();
+        opponent.acceptDamage(getAttack() + getTotalWeaponAttack());
+        int healthAfter = opponent.getHealth();
+        return healthBefore - healthAfter;
     }
 }

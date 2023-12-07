@@ -7,8 +7,7 @@ import org.example.game.interfaces.CanHitAndReportMixin;
 import org.example.game.interfaces.HasMultiHit;
 
 @Slf4j
-public class LancerImpl extends AbstractWarrior
-        implements HasMultiHit, CanHitAndReportMixin {
+public class LancerImpl extends AbstractWarrior implements HasMultiHit, CanHitAndReportMixin {
     static final int ATTACK = 6;
     static final int INITIAL_HEALTH = 50;
     static final int PENETRATION = 50;
@@ -27,33 +26,27 @@ public class LancerImpl extends AbstractWarrior
         log.info("Warrior {} hits {}", this, opponent);
         int realDamage = hitAndReportDealtDamage(opponent);
         log.info("I am Lancer and hit with damage " + realDamage);
-        if (opponent instanceof WarriorInArmyImpl warriorInArmy) {
+        if (opponent instanceof WarriorInArmy warriorInArmy) {
             var nextBehind = warriorInArmy.getWarriorBehind();
             if (nextBehind.isPresent()) {
                 int secondDamage = realDamage * PENETRATION / 100;
-                CanHit proxySecondHitByLancer = () -> secondDamage;
+                CanHit proxySecondHitByLancer = () -> secondDamage + getTotalWeaponAttack();
                 proxySecondHitByLancer.hit(nextBehind.get());
                 log.info("I am Lancer and hit second time with damage " + secondDamage);
-//                nextBehind.get().acceptDamage(secondDamage);
             }
         }
-//        for (int i = 0; i < getHitCount(); i++) {
-//            if (opponent instanceof AbstractWarrior awSecond) {
-//                int attack = (int) (getAttack() * (percentStrength / 100.0));
-//                awSecond.acceptDamage(attack);
-//                if (!awSecond.hasSomeoneBehind()) {
-//                    break;
-//                }
-//                opponent = awSecond.getWarriorBehind();
-//                percentStrength /= 2;
-//            } else {
-//                throw new RuntimeException();
-//            }
-//        }
     }
 
     @Override
     public int getHitCount() {
         return 2;
+    }
+
+    @Override
+    public int hitAndReportDealtDamage(CanAcceptDamage opponent) {
+        int healthBefore = opponent.getHealth();
+        opponent.acceptDamage(getAttack() + getTotalWeaponAttack());
+        int healthAfter = opponent.getHealth();
+        return healthBefore - healthAfter;
     }
 }

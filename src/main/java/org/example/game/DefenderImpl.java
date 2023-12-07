@@ -1,12 +1,14 @@
 package org.example.game;
 
 import org.example.game.interfaces.HasDefence;
+import org.example.game.interfaces.Weapon;
 
 public class DefenderImpl extends AbstractWarrior implements HasDefence {
 
     private static final int ATTACK = 3;
     private static final int INITIAL_HEALTH = 60;
     private static final int DEFENCE = 2;
+    private int weaponDefence;
 
     public DefenderImpl() {
         super(INITIAL_HEALTH);
@@ -18,7 +20,7 @@ public class DefenderImpl extends AbstractWarrior implements HasDefence {
     }
 
     public int getDefence() {
-        return DEFENCE;
+        return DEFENCE + getTotalWeaponDefence();
     }
 
     @Override
@@ -26,4 +28,15 @@ public class DefenderImpl extends AbstractWarrior implements HasDefence {
         int reducedDamage = Math.max(0, damage - getDefence());
         super.acceptDamage(reducedDamage);
     }
+
+    private int getTotalWeaponDefence() {
+//        if (isChangedWeapons) {
+//            weaponDefence = weaponList.stream().map(Weapon::getDefence).reduce(0, Integer::sum);
+//            isChangedWeapons = false;
+//        }
+//        return weaponDefence;
+        return weaponList.stream().map(Weapon::getDefence).reduce(0, Integer::sum);
+    }
+
+
 }

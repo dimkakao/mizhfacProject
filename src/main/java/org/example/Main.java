@@ -2,12 +2,8 @@ package org.example;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.game.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.example.game.Game.fight;
-import static org.example.game.Game.fightStraight;
-import static org.example.game.WarriorClasses.*;
 
 @Slf4j(topic = "dfdf.dfdf.dfdfdfdfdff.dfdfd.dfdfdfdbgbgbg")
 public class Main {
