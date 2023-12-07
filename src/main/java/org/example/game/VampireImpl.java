@@ -6,7 +6,6 @@ public class VampireImpl extends AbstractWarrior implements HasVampirism, CanHit
     static final int ATTACK = 4;
     static final int INITIAL_HEALTH = 40;
     static final int VAMPIRISM = 50;
-    private int weaponVampirism;
 
     public VampireImpl() {
         super(INITIAL_HEALTH);

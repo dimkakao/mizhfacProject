@@ -45,13 +45,9 @@ public class WarlordImpl extends AbstractWarrior implements CanMoveUnits, HasDef
 
         ArrayList<Warrior> list = new ArrayList<>();
 
-        list.addAll(army.stream()
-                .filter(warrior -> warrior instanceof LancerImpl)
-                .toList());
+        list.addAll(army.stream().filter(warrior -> warrior instanceof LancerImpl).toList());
 
-        list.addAll(army.stream()
-                .filter(warrior -> !(warrior instanceof LancerImpl))
-                .toList());
+        list.addAll(army.stream().filter(warrior -> !(warrior instanceof LancerImpl)).toList());
 
         list.removeIf((warrior) -> !warrior.isAlive());
 
@@ -82,7 +78,7 @@ public class WarlordImpl extends AbstractWarrior implements CanMoveUnits, HasDef
 
         Optional.ofNullable(firstPosition).ifPresent((warrior) -> list.add(0, warrior));
         Optional.ofNullable(secondPosition).ifPresent((warrior) -> list.add(Math.min(list.size(), 1), warrior));
-        Optional.ofNullable(warlord).ifPresent((warrior) -> list.add(warrior));
+        Optional.ofNullable(warlord).ifPresent(list::add);
         return list;
     }
 }

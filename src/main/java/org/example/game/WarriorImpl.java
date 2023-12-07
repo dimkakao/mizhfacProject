@@ -12,12 +12,4 @@ public class WarriorImpl extends AbstractWarrior {
     public int getAttack() {
         return ATTACK;
     }
-
-//    @Override
-//    public String toString() {
-//        return "WarriorImpl{" +
-//                " attack=" + ATTACK +
-//                " health" + this.getHealth() +
-//                '}';
-//    }
 }

@@ -14,7 +14,6 @@ public class HealerImpl extends AbstractWarrior implements CanHeal {
     static final int HEAL_POWER = 2;
     static final int MEDICAL_KITS = 200;
     private int usedKits;
-    private int weaponHealing;
 
     private Warrior frontWarrior;
 
